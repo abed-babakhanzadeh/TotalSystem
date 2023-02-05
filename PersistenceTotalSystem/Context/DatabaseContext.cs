@@ -5,8 +5,6 @@ namespace PersistenceTotalSystem.Context
 {
 	using ApplicationTotalSystem.DataBase;
 
-	using PersistenceTotalSystem.Repository.GenericRepositories;
-
 	public class DatabaseContext : DbContext, IDataBaseContext
 	{
 

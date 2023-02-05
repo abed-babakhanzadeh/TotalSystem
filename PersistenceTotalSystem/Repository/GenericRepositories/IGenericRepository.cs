@@ -2,8 +2,6 @@
 {
 	using System.Linq.Expressions;
 
-	using Microsoft.EntityFrameworkCore;
-
 	public interface IGenericRepository<TEntity> where TEntity : class
 	{
 		Task<IEnumerable<TEntity>> Get(

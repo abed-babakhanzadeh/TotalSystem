@@ -1,10 +1,10 @@
 ﻿namespace PersistenceTotalSystem.Repository.GenericRepositories
 {
+	using ApplicationTotalSystem.DataBase;
+	using Microsoft.EntityFrameworkCore;
 	using System.Linq;
 	using System.Linq.Expressions;
 	using System.Threading.Tasks;
-	using ApplicationTotalSystem.DataBase;
-	using Microsoft.EntityFrameworkCore;
 
 	public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
 
@@ -117,7 +117,7 @@
 
 		public async Task<IEnumerable<TEntity>> Get(Expression<Func<TEntity, bool>> where = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderby = null, string includes = "")
 		{
-			
+
 			IQueryable<TEntity> query = _dbset;
 
 			if (where != null)
@@ -139,7 +139,7 @@
 			}
 
 			return query.ToList();
-			
+
 		}
 
 		public Task<bool> Delete(int id)

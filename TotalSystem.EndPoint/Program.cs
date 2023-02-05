@@ -1,20 +1,21 @@
 ﻿namespace TotalSystem.EndPoint
 {
-	using System.Reflection;
-
 	using ApplicationTotalSystem.DataBase;
-
 	using DomainTotoalSystem.Entities;
-
 	using Microsoft.Extensions.DependencyInjection;
 	using PersistenceTotalSystem.Context;
 	using PersistenceTotalSystem.Repository.GenericRepositories;
+	using System.Reflection;
+
+	using ApplicationTotalSystem.Profiles;
+	using ApplicationTotalSystem.Services.Product;
+
 	using TotalSystem.EndPoint.Forms;
 
 	internal static class Program
 	{
 
-		//public static IServiceProvider ServiceProvider { get; private set; }
+		public static IServiceProvider ServiceProvider { get; private set; }
 
 		/// <summary>
 		/// سرویسها
@@ -53,8 +54,9 @@
 
 			using (ServiceProvider serviceProvider = services.BuildServiceProvider())
 			{
-				var generic = serviceProvider.GetRequiredService<IGenericRepository<Product>>();
+				//var generic = serviceProvider.GetRequiredService<IGenericRepository<Product>>();
 				//var generic = (IDataBaseContext)serviceProvider.GetService(typeof(IDataBaseContext));
+				var generic = (IProductService)serviceProvider.GetService(typeof(IProductService));
 				Application.Run(new frmMain(generic));
 			}
 
@@ -65,10 +67,14 @@
 		{
 
 			services.AddScoped<IDataBaseContext, DatabaseContext>();
+			services.AddScoped<IProductService, ProductService>();
 			services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 			//services.AddAllGenericTypes(typeof(IGenericRepository<>), new[] {typeof(DatabaseContext).GetTypeInfo().Assembly});
+			services.AddAutoMapper(Assembly.GetExecutingAssembly());
+			services.AddAutoMapper(typeof(MappingProfile));
 
 			services.AddDbContext<DatabaseContext>();
+			ServiceProvider = services.BuildServiceProvider();
 		}
 	}
 }
